@@ -1,4 +1,6 @@
 <?php 
+session_start();
+
 include('includes/conexion.php');
 conectar();
 ?>
@@ -22,6 +24,16 @@ conectar();
     </nav>
     <header>
         <h1>Concurso de disfraces de Halloween</h1>
+        <?php 
+            if(!empty($_SESSION['nombre_usuario'])){
+                ?>
+                <p>hola <?php echo $_SESSION['nombre_usuario'];?> </p>
+                <a href="index.php?modulo=procesar_login&salir=ok">SALIR</a>
+                <?php
+            }
+        ?>
+
+        
     </header>
     <main>
 
@@ -41,7 +53,23 @@ conectar();
                                     <p> descripcion: <?php echo $r['descripcion'];?></p>
                                     <p>Votos: <?php echo $r['votos'];?></p>
                                     <p><img src="imagenes/fondo.jpg" <?php echo $r['foto'];?> width="100%"></p>
-                                    <button class="votar">Votar </button></button>
+                                    <?php 
+                                        if(!empty($_SESSION['nombre_usuario'])){
+                                            //consulto si el usuario voto por el disfraz
+                                            $sql_votos= "SELECT *FROM votos where id_disfraz=".$r['id']." and id_usuario=".$_SESSION['id'];
+                                            $sql_votos = mysqli_query( $con,$sql_votos);
+
+
+                                            if(mysqli_num_rows($sql_votos) == 0){
+                                                ?>
+                                                <form method="POST" action="index.php?modulo=procesar_votos">
+                                                    <input type="hidden" name="id_disfraz" id="id_disfraz" value="<?php echo $r['id'];?>">
+                                                    <button class="votar">Votar </button></button>
+                                                </form>
+                                                <?php
+                                            }
+                                        }
+                                    ?>
                                 </div>
                                 <!-- Repetir la estructura para mas disfraces -->
                             </section>  

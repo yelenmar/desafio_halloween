@@ -19,7 +19,7 @@
                 echo"<script>alert('Registro insertado con exito');</script>";
             }
         }
-        //limpio el post
+        //limpio el POST
         echo "<script>window.location='index.php?modulo=procesar_registro';</script>";
 
     }
