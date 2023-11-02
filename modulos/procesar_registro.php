@@ -19,6 +19,9 @@
                 echo"<script>alert('Registro insertado con exito');</script>";
             }
         }
+        //limpio el post
+        echo "<script>window.location='index.php?modulo=procesar_registro';</script>";
+
     }
 ?>
 
